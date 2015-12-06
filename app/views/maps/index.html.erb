@@ -1,0 +1,9 @@
+<%= javascript_include_tag "search_map", "data-turbolinks-track" => true %>
+
+<div id="map-canvas">
+</div>
+<form id="searchButton" method="get" action="maps"
+  data-addresses="<%= @addresses.to_json %>">Search
+</form>
+<form id="clearMarkers">Clear Markers
+</form>

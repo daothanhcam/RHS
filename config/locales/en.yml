@@ -40,6 +40,7 @@ en:
     local: "Your location"
     search: "Search"
     holder: "Enter address here"
+    search_map: "Search on Map"
   address:
     add_image: Add Images
     upload_image: "Upload Images"

@@ -8,3 +8,4 @@ Rails.application.config.assets.version = '1.0'
 Rails.application.config.assets.precompile += %w( maps.js )
 Rails.application.config.assets.precompile += %w(custom_websocket.js)
 Rails.application.config.assets.precompile += %w( arrows-ffffff.png )
+Rails.application.config.assets.precompile += %w( search_map.js )
