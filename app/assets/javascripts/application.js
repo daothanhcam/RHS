@@ -29,4 +29,3 @@
 //= require hoverIntent
 //= require visited_news
 //= require address
-//= require search_map.js
