@@ -49,6 +49,16 @@ header.navbar-inverse{
   height: 44px;
   min-height: 44px;
   margin-bottom: 0px;
+  background-color: transparent;
+  width: 80%;
+  margin-left: 20%;
+}
+
+.round-li {
+  border-radius: 23px;
+  width: 46px;
+  background: blue;
+  margin-right: 20px;
 }
 
 #my-header .dropdown ul li{
@@ -84,7 +94,7 @@ html, body{
 }
 
 .controls {
-  margin-top: 16px;
+  margin-top: 10px;
   border: 1px solid transparent;
   border-radius: 2px 0 0 2px;
   box-sizing: border-box;
@@ -99,7 +109,7 @@ html, body{
   font-family: Roboto;
   font-size: 15px;
   font-weight: 300;
-  margin-top: 7px;
+  margin-left: 12px;
   padding: 0 11px 0 13px;
   text-overflow: ellipsis;
   width: 300px;
@@ -154,11 +164,12 @@ html, body{
 
 #mylocation {
   background-size: cover;
-  width: 120px;
+  width: 32px;
   height: 32px;
   position: absolute;
-  bottom: 7%;
-  right: 5%;
+  bottom: 24px;
+  right: 50px;
+  border-radius: 1px;
 }
 
 .info {

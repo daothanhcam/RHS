@@ -1,9 +1,8 @@
-<%= javascript_include_tag "search_map", "data-turbolinks-track" => true %>
+<%= javascript_include_tag "gmap_custom", "data-turbolinks-track" => true %>
 
+<%= render "shared/header" %>
+<input id="pac-input" class="controls" type="text" placeholder="Search Box">
 <div id="map-canvas">
 </div>
-<form id="searchButton" method="get" action="maps"
-  data-addresses="<%= @addresses.to_json %>">Search
 </form>
-<form id="clearMarkers">Clear Markers
-</form>
+<%= render "shared/current_location" %>
