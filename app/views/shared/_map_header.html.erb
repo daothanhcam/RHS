@@ -1,0 +1,55 @@
+<header class="navbar navbar-fixed-top navbar-inverse" id="map-header">
+  <div class="container">
+    <nav>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="round-li">
+          <%= link_to "#" do %>
+            <button class="btn btn-success create-region-btn btn-raised" data-toggle="tooltip"
+              title="Create region to search inside">
+              <span class="glyphicon glyphicon-pencil"></span>
+            </button>
+          <% end %>
+        </li>
+        <% if current_user.nil? %>
+            <li class="round-li round-li-first">
+              <%= link_to new_user_session_path do %>
+                <button class="btn btn-success btn-raised" data-toggle="tooltip" title="Log in">
+                  <span class="glyphicon glyphicon-log-in"></span>
+                </button>
+              <% end %>
+            </li>
+        <% else %>
+          <li class="round-li round-li-first">
+            <%= link_to new_address_path do %>
+              <button class="btn btn-success btn-raised" data-toggle="tooltip"
+                title="Add new address">
+                <span class="glyphicon glyphicon-plus"></span></button>
+            <% end %>
+          </li>
+
+          <li class="round-li round-li-first">
+            <%= link_to destroy_user_session_path, method: :delete do %>
+              <button class="btn btn-success btn-raised" data-toggle="tooltip" title="Log out" >
+                <span class="glyphicon glyphicon-log-out"></span></button>
+            <% end %>
+          </li>
+
+          <li class="round-li" style="margin-right: 100px;"
+            data-toggle="tooltip" title=<%= current_user.email %> >
+            <%= link_to edit_user_registration_path(current_user) do %>
+              <% if current_user.avatar.present? %>
+                <%= image_tag current_user.avatar.url,
+                  class: "img-circle round-li",
+                  id: "avatar-on-map" %>
+              <% else %>
+                <%= image_tag Settings.user.avatar_default,
+                  class: "img-circle round-li", 
+                  id: "avatar-on-map" %>
+              <% end %>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    </nav>
+  </div>
+</header>

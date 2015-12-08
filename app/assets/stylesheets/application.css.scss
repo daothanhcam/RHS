@@ -11,6 +11,7 @@
  * file per style scope.
  *
  *= require_self
+ *= require jquery-ui
  *= require fancybox
  *= require bootstrap-social
  *= require font-awesome
@@ -18,6 +19,7 @@
  *= require superfish
  *= require superfish-vertical
  *= require superfish-navbar
+ *= require_tree
  */
 
 @import "bootstrap-sprockets";

@@ -1,5 +1,7 @@
 <%= javascript_include_tag "gmap_custom", "data-turbolinks-track" => true %>
 
+<%= render "shared/map_header" %>
+<%= render "shared/filter_on_map" %>
 <input id="pac-input" class="controls" type="text" placeholder="Search Box">
 <div id="map-canvas">
 </div>

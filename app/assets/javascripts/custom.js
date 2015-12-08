@@ -1,4 +1,5 @@
 $(document).ready(function(){
+  $.material.init();
   $(".carousel-inner .item:first-child").addClass("active");
 
   $(".carousel").carousel("pause");
