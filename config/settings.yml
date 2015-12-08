@@ -14,7 +14,7 @@ image_sample:
   - /app/assets/images/house2.jpg
   - /app/assets/images/house3.jpg
 user:
-  avatar_default: "avatar_default.jpg"
+  avatar_default: "default-avatar.png"
 num_of_recent_addresses: 10
 num_of_show_location: 5
 num_of_address_by_regions: 5

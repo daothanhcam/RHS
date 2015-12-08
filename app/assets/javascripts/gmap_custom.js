@@ -1,6 +1,6 @@
-var directionsDisplay, map, geolocate, geo_marker = null;
-var directionsService = new google.maps.DirectionsService();
-var infowindow = new google.maps.InfoWindow({size: new google.maps.Size(150, 50)});
+var map, geolocate, geo_marker = null;
+// var directionsService = new google.maps.DirectionsService();
+// var infowindow = new google.maps.InfoWindow({size: new google.maps.Size(150, 50)});
 
 function initialize() {
   var myLatlng = new google.maps.LatLng(21.017030, 105.783902);
@@ -16,8 +16,8 @@ function initialize() {
     streetViewControl: false
   }
 
-  directionsDisplay = new google.maps.DirectionsRenderer();
-  directionsDisplay.setMap(map)
+  // directionsDisplay = new google.maps.DirectionsRenderer();
+  // directionsDisplay.setMap(map)
 
   map = new google.maps.Map(document.getElementById("map-canvas"), option);
 
