@@ -57,8 +57,8 @@ header.navbar-inverse {
   min-height: 44px;
   margin-bottom: 0px;
   background-color: transparent;
-  width: 80%;
-  margin-left: 20%;
+  width: 40%;
+  margin-left: 60%;
   border: 0px; 
 }
 
@@ -167,10 +167,26 @@ html, body{
   margin: 20px 0px 20px 0px;
 }
 
+.btn.btn-fab {
+  font-size: 18px !important;
+  padding: 0px !important;
+  height: 40px !important;
+  width: 40px !important;
+  padding-left: 1px !important;
+}
+
+.navbar .navbar-nav > li > a {
+  padding-top: 5px !important;
+}
 #map-add-address {
   width: 630px;
   height: 500px;
   margin-bottom: 30px;
+}
+
+#float-on-map-btn {
+  position: fixed;
+  top: 50px;
 }
 
 #map-canvas {
@@ -185,12 +201,12 @@ html, body{
   width: 28px;
   height: 27px;
   position: absolute;
-  bottom: 79px;
+  bottom: 89px;
   right: 10px;
-  border-radius: 1px;
+  border-radius: 3px;
   text-align: center;
   background-color: white;
-  border-bottom: solid 1px rgba(0, 0, 0, 0.08);
+  border: solid 1px rgba(0, 0, 0, 0.13);
   padding-top: 3px;
 }
 

@@ -29,3 +29,7 @@
 //= require hoverIntent
 //= require visited_news
 //= require address
+
+$(function(){
+	$.material.init();
+});
