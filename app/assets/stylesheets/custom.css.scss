@@ -1615,14 +1615,25 @@ hr {
 
 .filter-on-map-form {
   position: absolute;
-  z-index: 2;
+  z-index: 1;
   background-color: white;
-  top: 50px;
+  top: 11px;
   left: 12px;
-  height: 150px;
-  width: 300px;
+  height: 180px;
+  width: 180px;
+  padding: 5px 15px;
+  border-radius: 5px;
 }
 
 #pac-input {
-  margin-left: 300px !important;
+  margin-left: 200px !important;
+  z-index: 2 !important;
+}
+
+.center {
+  text-align: center;
+}
+
+.filter-btn {
+  margin-left: 10px;
 }
