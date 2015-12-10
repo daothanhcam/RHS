@@ -1,3 +1,5 @@
+//= require jquery
+
 var map, geolocate, geo_marker = null;
 function initialize() {
   var myLatlng = new google.maps.LatLng(21.017030, 105.783902);
@@ -17,7 +19,7 @@ function initialize() {
     drawingMode: google.maps.drawing.OverlayType.MARKER,
     drawingControl: true,
     drawingControlOptions: {
-      position: google.maps.ControlPosition.TOP_CENTER,
+      position: google.maps.ControlPosition.BOTTOM_CENTER,
       drawingModes: [
         google.maps.drawing.OverlayType.CIRCLE,
         google.maps.drawing.OverlayType.POLYGON,
@@ -42,6 +44,29 @@ function initialize() {
     }
   });
   drawingManager.setMap(map);
+
+  // Event when overlay draw complete
+  google.maps.event.addListener(drawingManager, 'overlaycomplete', function(event) {
+    $.ajax({
+      type: "GET",
+      url: "/addresses",
+      data: {addresses_to_map: true},
+      success: function(result) {
+        var i;
+        for(var i=0; i<result.length; i++) {
+          var point = new google.maps.LatLng(result[i].lat,result[i].lng);
+          // if (google.maps.geometry.spherical.computeDistanceBetween(point, event.overlay.center) <= event.overlay.radius) {
+          if ((event.type == google.maps.drawing.OverlayType.POLYGON && google.maps.geometry.poly.containsLocation(point,event.overlay)) ||  (event.type == google.maps.drawing.OverlayType.CIRCLE && google.maps.geometry.spherical.computeDistanceBetween(point, event.overlay.center) <= event.overlay.radius)) {
+            var m = new google.maps.Marker({
+              position: point,
+              title: 'Location '+i,
+              map: map
+            });
+          }
+        }
+      },
+    });
+  });
 
   // init search box
   var input = document.getElementById("pac-input");
