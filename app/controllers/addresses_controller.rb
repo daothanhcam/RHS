@@ -3,17 +3,22 @@ class AddressesController < ApplicationController
   before_action :find_address, only: [:show, :edit, :destroy, :update]
 
   def index
-    @address = Address.new
-    @recent_addresses = Address.last Settings.num_of_recent_addresses
-
-    @search = Address.search params[:q]
-
-    @regions = []
-
-    if params[:province].nil?
-      Region.homes.each{|region| @regions << region.addresses.last(5)}
+    if params[:addresses_to_map]
+      @result = Address.all.last 5
+      respond_to {|format| format.json{render json: @result}} and return
     else
-      @regions << Address.by_province(params[:province])
+      @address = Address.new
+      @recent_addresses = Address.last Settings.num_of_recent_addresses
+
+      @search = Address.search params[:q]
+
+      @regions = []
+
+      if params[:province].nil?
+        Region.homes.each{|region| @regions << region.addresses.last(5)}
+      else
+        @regions << Address.by_province(params[:province])
+      end
     end
   end
 

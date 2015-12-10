@@ -46,7 +46,7 @@ header.navbar-inverse {
 }
 
 #my-header {
-  height: 44px;
+  height: 50px;
   min-height: 44px;
   margin-bottom: 0px;
   border: 0px;
@@ -1627,4 +1627,52 @@ hr {
   top: 5%;
   left: 25%;
   color: red;
+}
+
+.filter-on-map-form {
+  position: absolute;
+  z-index: 1;
+  background-color: white;
+  top: 11px;
+  left: 12px;
+  height: 280px;
+  width: 180px;
+  padding: 5px 15px;
+  border-radius: 5px;
+  .btn {
+    margin-top: 0px !important;
+  }
+}
+
+#pac-input {
+  margin-left: 200px !important;
+  z-index: 2 !important;
+}
+
+.center {
+  text-align: center;
+}
+
+.filter-btn {
+  margin-left: 10px;
+}
+
+.header-logo {
+  font-size: 50px;
+  color: white;
+}
+
+.select-type-label {
+  float: left !important;
+  font-weight: bold;
+  margin-bottom: 7px;
+}
+
+.draw-type-form {
+  margin-bottom: 0px !important;
+}
+
+.clear-filter-btn {
+  padding: 5px 14px !important;
+  margin-left: 15px !important;
 }
