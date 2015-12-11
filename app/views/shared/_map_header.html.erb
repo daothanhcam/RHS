@@ -2,14 +2,6 @@
   <div class="container">
     <nav>
       <ul class="nav navbar-nav" style="margin-left: 20%;">
-        <li>
-          <%= link_to "#" do %>
-            <button class="btn btn-success btn-fab btn-sm btn-raised" data-toggle="tooltip"
-              title="Create region to search inside">
-              <span class="glyphicon glyphicon-pencil"></span>
-            </button>
-          <% end %>
-        </li>
         <% if current_user.nil? %>
             <li class="round-li round-li-first">
               <%= link_to new_user_session_path do %>

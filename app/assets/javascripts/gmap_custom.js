@@ -1,10 +1,13 @@
 //= require jquery
 
+var markers = [];
+var overlays = [];
+var infowindows =[];
+var tmpMarkers = [];
 var map, geolocate, geo_marker = null;
 function initialize() {
   var myLatlng = new google.maps.LatLng(21.017030, 105.783902);
   var image = "/assets/pin.png";
-  var markers = [];
   var option = {
     zoom: 13,
     center: myLatlng,
@@ -17,51 +20,88 @@ function initialize() {
   // int draw tool
   var drawingManager = new google.maps.drawing.DrawingManager({
     drawingMode: google.maps.drawing.OverlayType.MARKER,
-    drawingControl: true,
+    drawingControl: false,
     drawingControlOptions: {
       position: google.maps.ControlPosition.BOTTOM_CENTER,
       drawingModes: [
         google.maps.drawing.OverlayType.CIRCLE,
         google.maps.drawing.OverlayType.POLYGON,
-        google.maps.drawing.OverlayType.RECTANGLE
       ]
     },
-    markerOptions: {icon: 'images/beachflag.png'},
     circleOptions: {
+      strokeWeight: 0,
       fillOpacity: 0.2,
-      editable: true,
       zIndex: 1
     },
     polygonOptions: {
+      strokeWeight: 0,
       fillOpacity: 0.2,
-      editable: true,
-      zIndex: 1
-    },
-    rectangleOptions: {
-      fillOpacity: 0.2,
-      editable: true,
       zIndex: 1
     }
   });
   drawingManager.setMap(map);
 
+
+  // Clear filter button on click
+  $(".circle-draw-btn").click(function(){
+    event.preventDefault();
+    drawingManager.setOptions({drawingMode: google.maps.drawing.OverlayType.CIRCLE});
+  });
+  $(".square-draw-btn").click(function(){
+    event.preventDefault();
+    drawingManager.setOptions({drawingMode: google.maps.drawing.OverlayType.POLYGON});
+  });
+  // Clear filter button on click
+  $(".clear-filter-btn").click(function(){
+    event.preventDefault();
+    clearOverlayMarker();
+  });
+
   // Event when overlay draw complete
   google.maps.event.addListener(drawingManager, 'overlaycomplete', function(event) {
+    overlays.push(event.overlay);
+    drawingManager.setOptions({drawingMode: null});
     $.ajax({
       type: "GET",
       url: "/addresses",
       data: {addresses_to_map: true},
       success: function(result) {
-        var i;
+        var j = 0;
         for(var i=0; i<result.length; i++) {
           var point = new google.maps.LatLng(result[i].lat,result[i].lng);
-          // if (google.maps.geometry.spherical.computeDistanceBetween(point, event.overlay.center) <= event.overlay.radius) {
           if ((event.type == google.maps.drawing.OverlayType.POLYGON && google.maps.geometry.poly.containsLocation(point,event.overlay)) ||  (event.type == google.maps.drawing.OverlayType.CIRCLE && google.maps.geometry.spherical.computeDistanceBetween(point, event.overlay.center) <= event.overlay.radius)) {
-            var m = new google.maps.Marker({
+            tmpMarkers[j] = new google.maps.Marker({
               position: point,
-              title: 'Location '+i,
+              animation: google.maps.Animation.DROP,
               map: map
             });
+            var markerContent = 
+                                '<div class="container">' +
+                                  '<div class="row">' +
+                                    '<p>' + result[i].title + '</p>' +
+                                  '</div>' +
+
+                                  '<div class="row">' +
+                                    '<p>' + result[i].description + '</p>' +
+                                  '</div>' +
+
+                                  '<div class="row">' +
+                                    '<span>Price: </span>' +
+                                    '<span>' + result[i].price + '</span>' +
+                                    '<span>VND</span>' +
+                                  '</div>' +
+
+                                  '<div class="row">' +
+                                    '<span>Area: </span>' +
+                                    '<span>' + result[i].square + '</span>' +
+                                    '<span>M2</span>' +
+                                  '</div>' +
+                                '</div>';                                
+            infowindows[j] = new google.maps.InfoWindow({
+              maxWidth: 300
+            });
+            bindInfoWindow(tmpMarkers[j], map, infowindows[j], markerContent);
+            j++;
           }
         }
       },
@@ -157,3 +197,20 @@ function handleNoGeolocation(errorFlag) {
   var infowindow = new google.maps.InfoWindow(options);
   map.setCenter(options.position);
 }
+
+function clearOverlayMarker(){
+  event.preventDefault();
+  while(overlays[0]){
+    overlays.pop().setMap(null);
+  }
+  while(tmpMarkers[0]){
+    tmpMarkers.pop().setMap(null);
+  }
+}
+
+function bindInfoWindow(marker, map, infowindow, markerContent) {
+  marker.addListener('click', function() {
+    infowindow.setContent(markerContent);
+    infowindow.open(map, this);
+  });
+} 
