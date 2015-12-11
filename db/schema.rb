@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150729025450) do
+ActiveRecord::Schema.define(version: 20151211171939) do
 
   create_table "addresses", force: :cascade do |t|
     t.float    "lng",             limit: 24
@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 20150729025450) do
     t.boolean  "network",         limit: 1
     t.boolean  "table",           limit: 1
     t.boolean  "chair",           limit: 1
+    t.string   "type",            limit: 255
   end
 
   add_index "addresses", ["user_id"], name: "index_addresses_on_user_id", using: :btree

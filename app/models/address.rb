@@ -62,9 +62,7 @@ class Address < ActiveRecord::Base
   end
 
   PARAMS_ATTRIBUTES = [
-    :user_id, :region_id, :id, :lng, :lat, :capacity, :contact, :title,
-    :description, :house, :square, :address, :price, :parking,
-    :air_conditioner, :ceiling_fan, :bed, :washing_machine, :television,
-    :network, :table, :chair, images_attributes: [:id, :photo, :is_main, :_destroy]
+    :user_id, :id, :lng, :lat, :contact, :title,
+    :description, :type, :square, :address, :price, images_attributes: [:id, :photo, :is_main, :_destroy]
   ]
 end

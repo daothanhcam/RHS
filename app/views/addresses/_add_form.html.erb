@@ -40,67 +40,13 @@
             placeholder: t("address.description_input") %>
         </p>
       </div>
-      <div id="input-form-checkbox">
-        <table>
-          <tr>
-            <td>
-              <%= f.check_box :parking, class: "parking-checkbox" %>
-              <%= f.label :parking %>
-            </td>
-            <td>
-              <%= f.check_box :air_conditioner, class: "parking-checkbox" %>
-              <%= f.label :air_conditioner %>
-            </td>
-            <td>
-              <%= f.check_box :ceiling_fan, class: "parking-checkbox" %>
-              <%= f.label :ceiling_fan %>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <%= f.check_box :bed, class: "parking-checkbox" %>
-              <%= f.label :bed %>
-            </td>
-            <td>
-              <%= f.check_box :washing_machine, class: "parking-checkbox" %>
-              <%= f.label :washing_machine %>
-            </td>
-            <td>
-              <%= f.check_box :television, class: "parking-checkbox" %>
-              <%= f.label :television %>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <%= f.check_box :network, class: "parking-checkbox" %>
-              <%= f.label :network %>
-            </td>
-            <td>
-              <%= f.check_box :table, class: "parking-checkbox" %>
-              <%= f.label :table %>
-            </td>
-            <td>
-              <%= f.check_box :chair, class: "parking-checkbox" %>
-              <%= f.label :chair %>
-            </td>
-          </tr>
-        </table>
-      </div>
     </div>
 
     <div id="input-form-select">
-      <table>
-          <tr>
-            <td>
-              <%= f.label :region %>
-              <%= f.collection_select :region_id, Region.all, :id, :province, {include_blank: t("address.region")} %>
-            </td>
-            <td>
-              <%= f.label :house %>
-              <%= f.collection_select :house, Address.houses, :first, :first, {include_blank: t("address.house")} %>
-            </td>
-          </tr>
-        </table>
+      <div>
+        <%= f.label :house %>
+        <%= f.collection_select :house, Address.houses, :first, :first, {include_blank: t("address.house")} %>
+      </div>
     </div>
 
     <div id="upload-images-form" data-images="<%= f.object.images.to_json %>">
