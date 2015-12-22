@@ -194,3 +194,6 @@ pagination:
     per_page: 10
   comment:
     per_page: 5
+maps:
+  max_price: 1000000000000
+  max_area: 1000000000

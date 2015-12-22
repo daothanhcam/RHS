@@ -4,21 +4,19 @@ class AddressesController < ApplicationController
 
   def index
     if params[:addresses_to_map]
-      @result = Address.all.last 5
+      max_price = (params[:max_price].present? && params[:max_price].to_i.to_s == params[:max_price]) ? params[:max_price].to_i : Settings.maps.max_price.to_i
+      min_price = (params[:min_price].present? && params[:min_price].to_i.to_s == params[:min_price]) ? params[:min_price].to_i : 0
+      min_area = (params[:min_area].present? && params[:min_area].to_i.to_s == params[:min_area]) ? params[:min_area].to_i : 0
+      max_area = (params[:max_area].present? && params[:max_area].to_i.to_s == params[:max_area]) ? params[:max_area].to_i : Settings.maps.max_area.to_i
+      @result = Address.area_in_range(min_area, max_area)
+        .price_in_range(min_price, max_price)
+        .where(house: Address.houses[params[:type]])
       respond_to {|format| format.json{render json: @result}} and return
     else
       @address = Address.new
       @recent_addresses = Address.last Settings.num_of_recent_addresses
 
       @search = Address.search params[:q]
-
-      @regions = []
-
-      if params[:province].nil?
-        Region.homes.each{|region| @regions << region.addresses.last(5)}
-      else
-        @regions << Address.by_province(params[:province])
-      end
     end
   end
 
@@ -43,6 +41,7 @@ class AddressesController < ApplicationController
   end
 
   def create
+    address_params[:user_id] = current_user.id
     @address = Address.new address_params
     if @address.save
       redirect_to new_address_path, notice: t("address.create")

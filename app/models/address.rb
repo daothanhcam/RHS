@@ -3,9 +3,7 @@ class Address < ActiveRecord::Base
   attr_accessor :google_map
 
   validates :title, presence: true
-  validates :region, presence: true
   validates :house, presence: true
-  validates :capacity, presence: true
   validates :contact, presence: true
   validates :address, presence: true
   validates :square, presence: true
@@ -17,7 +15,6 @@ class Address < ActiveRecord::Base
   paginates_per Settings.pagination.per_page
 
   belongs_to :user
-  belongs_to :region
   has_many :images, dependent: :destroy
   has_many :reviews, dependent: :destroy
 
@@ -34,9 +31,14 @@ class Address < ActiveRecord::Base
   end
 
   scope :by_province, ->province{joins(:region).where "regions.province = ?", province}
+  scope :area_in_range, ->(min, max) do
+    where("square >= ? AND square <= ?", min, max)
+  end
+  scope :price_in_range, ->(min, max) do
+    where("price >= ? AND price <= ?", min, max)
+  end
 
-  enum house: [:apartment, :villa]
-
+  enum house: ["Sell house", "Sell land", "Rent house"]
 
   scope :order_by_colunm, ->object do
     case object
@@ -63,8 +65,7 @@ class Address < ActiveRecord::Base
 
   PARAMS_ATTRIBUTES = [
     :user_id, :region_id, :id, :lng, :lat, :capacity, :contact, :title,
-    :description, :house, :square, :address, :price, :parking,
-    :air_conditioner, :ceiling_fan, :bed, :washing_machine, :television,
-    :network, :table, :chair, images_attributes: [:id, :photo, :is_main, :_destroy]
+    :description, :house, :square, :address, :price,
+    images_attributes: [:id, :photo, :is_main, :_destroy]
   ]
 end

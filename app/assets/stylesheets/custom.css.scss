@@ -1126,6 +1126,10 @@ select.form-control {
   width: 630px;
   min-height: 250px !important;
   display:inline-block;
+  .row {
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
   .textarea {
   min-height:100px;
   display:inline-block;
@@ -1635,7 +1639,7 @@ hr {
   background-color: white;
   top: 11px;
   left: 12px;
-  height: 280px;
+  height: 321px;
   width: 180px;
   padding: 5px 15px;
   border-radius: 5px;
@@ -1675,4 +1679,9 @@ hr {
 .clear-filter-btn {
   padding: 5px 14px !important;
   margin-left: 15px !important;
+}
+
+#select-type-filter {
+  margin-top: 8px;
+  margin-left: 13px;
 }

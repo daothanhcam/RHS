@@ -4,8 +4,9 @@ var markers = [];
 var overlays = [];
 var infowindows =[];
 var tmpMarkers = [];
-var map, geolocate, geo_marker = null;
+var map, map_sm, geolocate, geo_marker = null;
 function initialize() {
+
   var myLatlng = new google.maps.LatLng(21.017030, 105.783902);
   var image = "/assets/pin.png";
   var option = {
@@ -16,6 +17,12 @@ function initialize() {
     streetViewControl: false
   }
   map = new google.maps.Map(document.getElementById("map-canvas"), option);
+
+  //direction
+  var directionsDisplay = new google.maps.DirectionsRenderer;
+  var directionsService = new google.maps.DirectionsService;
+  directionsDisplay.setMap(map);
+  calculateAndDisplayRoute(directionsService, directionsDisplay);
 
   // int draw tool
   var drawingManager = new google.maps.drawing.DrawingManager({
@@ -64,8 +71,13 @@ function initialize() {
     $.ajax({
       type: "GET",
       url: "/addresses",
-      data: {addresses_to_map: true},
+      data: {addresses_to_map: true, type: $("#select-type-filter option:selected").val(),
+        max_price: $("#max-price").val(), min_price: $("#min-price").val(),
+        max_area: $("#max-area").val(), min_area: $("#min-area").val()},
       success: function(result) {
+        while(tmpMarkers[0]){
+          tmpMarkers.pop().setMap(null);
+        }
         var j = 0;
         for(var i=0; i<result.length; i++) {
           var point = new google.maps.LatLng(result[i].lat,result[i].lng);
@@ -96,9 +108,15 @@ function initialize() {
                                     '<span>' + result[i].square + '</span>' +
                                     '<span>M2</span>' +
                                   '</div>' +
+
+                                  '<div class="row">' +
+                                    '<a href="addresses/' + result[i].id + '" class="btn btn-info btn-sm" role="button" id="see-more-btn">See more detail</a>' +
+                                    '<button id="get-direction-btn" class="btn btn-info btn-sm">Get direction</span>' +
+                                    '<button id="serach-near-by-btn" class="btn btn-info btn-sm">Search near by </span>' +
+                                  '</div>' +
                                 '</div>';                                
             infowindows[j] = new google.maps.InfoWindow({
-              maxWidth: 300
+              maxWidth: 400
             });
             bindInfoWindow(tmpMarkers[j], map, infowindows[j], markerContent);
             j++;
@@ -106,6 +124,12 @@ function initialize() {
         }
       },
     });
+  });
+
+  // Get lat long when click on map
+  google.maps.event.addListener(map, 'click', function( event ){
+    $("#form-lat").attr({value: event.latLng.lat()});
+    $("#form-lng").attr({value: event.latLng.lng()});
   });
 
   // init search box
@@ -154,7 +178,6 @@ function initialize() {
     map.fitBounds(bounds);
   });
 }
-
 
 //get current location 
 function geoLocation() {
@@ -213,4 +236,19 @@ function bindInfoWindow(marker, map, infowindow, markerContent) {
     infowindow.setContent(markerContent);
     infowindow.open(map, this);
   });
-} 
+}
+
+function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+  var selectedMode = document.getElementById('mode').value;
+  directionsService.route({
+    origin: {lat: 37.77, lng: -122.447},  // Haight.
+    destination: {lat: 37.768, lng: -122.511},  // Ocean Beach.
+    travelMode: google.maps.TravelMode[selectedMode]
+  }, function(response, status) {
+    if (status == google.maps.DirectionsStatus.OK) {
+      directionsDisplay.setDirections(response);
+    } else {
+      window.alert('Directions request failed due to ' + status);
+    }
+  });
+}

@@ -2,89 +2,66 @@
   <div class="panel-heading">
     <%= render "shared/error_messages", object: f.object %>
     <div id="input-form">
-      <div id="input-form-text">
-        <p>
-          <%= f.label :title %>
-          <%= f.text_field :title, class: "address-input",
-            placeholder: t("address.title_input") %>
-        </p>
-        <p>
-          <%= f.hidden_field :user_id, value: current_user.id %>
-          <%= f.label :capacity %>
-          <%= f.text_field :capacity, class: "address-input",
-            placeholder: t("address.capacity_input") %>
-        </p>
-        <p>
-          <%= f.label :contact %>
-          <%= f.text_field :contact, class: "address-input",
-            placeholder: t("address.contact_input") %>
-        </p>
-        <p>
-          <%= f.label :address %>
-          <%= f.text_field :address, class: "address-input",
-            placeholder: t("address.address_input") %>
-        </p>
-        <p>
-          <%= f.label :square %>
-          <%= f.text_field :square, class: "address-input",
-            placeholder: t("address.square_input") %>
-        </p>
-        <p>
-          <%= f.label :price %>
-          <%= f.text_field :price, class: "address-input",
-          placeholder: t("address.price_input") %>
-        </p>
-        <p>
-          <%= f.label :description %>
-          <%= f.text_area :description, class: "textarea",
-            placeholder: t("address.description_input") %>
-        </p>
-      </div>
-      <div id="input-form-checkbox">
-        <table>
-          <tr>
-            <td>
-              <%= f.check_box :parking, class: "parking-checkbox" %>
-              <%= f.label :parking %>
-            </td>
-            <td>
-              <%= f.check_box :air_conditioner, class: "parking-checkbox" %>
-              <%= f.label :air_conditioner %>
-            </td>
-            <td>
-              <%= f.check_box :ceiling_fan, class: "parking-checkbox" %>
-              <%= f.label :ceiling_fan %>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <%= f.check_box :bed, class: "parking-checkbox" %>
-              <%= f.label :bed %>
-            </td>
-            <td>
-              <%= f.check_box :washing_machine, class: "parking-checkbox" %>
-              <%= f.label :washing_machine %>
-            </td>
-            <td>
-              <%= f.check_box :television, class: "parking-checkbox" %>
-              <%= f.label :television %>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <%= f.check_box :network, class: "parking-checkbox" %>
-              <%= f.label :network %>
-            </td>
-            <td>
-              <%= f.check_box :table, class: "parking-checkbox" %>
-              <%= f.label :table %>
-            </td>
-            <td>
-              <%= f.check_box :chair, class: "parking-checkbox" %>
-              <%= f.label :chair %>
-            </td>
-          </tr>
-        </table>
+      <div id="input-form-text" class="form-group">
+        <div class="row">
+          <div class="col-md-2">
+            <%= f.label :title %>
+          </div>
+          <div class="col-md-10">
+            <%= f.text_field :title, class: "address-input form-control",
+              placeholder: t("address.title_input") %>
+          </div>
+        </div>
+        <%= f.hidden_field :user_id, value: current_user.id %>
+        <div class="row">
+          <div class="col-md-2">
+            <%= f.label :contact %>
+          </div>
+          <div class="col-md-10">
+            <%= f.text_field :contact, class: "address-input form-control",
+              placeholder: t("address.contact_input") %>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-2">
+            <%= f.label :address %>
+          </div>
+          <div class="col-md-10">
+            <%= f.text_field :address, class: "address-input form-control",
+              placeholder: t("address.address_input") %>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-2">
+            <%= f.label :square %>
+          </div>
+          <div class="col-md-10">
+            <%= f.text_field :square, class: "address-input form-control",
+              placeholder: t("address.square_input") %>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-2">
+            <%= f.label :price %>
+          </div>
+          <div class="col-md-10">
+            <%= f.text_field :price, class: "address-input form-control",
+            placeholder: t("address.price_input") %>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-2">
+            <%= f.label :description %>
+          </div>
+          <div class="col-md-10">
+            <%= f.text_area :description, class: "textarea address-input",
+              placeholder: t("address.description_input"), style: "margin-right: 20px; margin-left: -5px;" %>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -92,12 +69,9 @@
       <table>
           <tr>
             <td>
-              <%= f.label :region %>
-              <%= f.collection_select :region_id, Region.all, :id, :province, {include_blank: t("address.region")} %>
-            </td>
-            <td>
-              <%= f.label :house %>
-              <%= f.collection_select :house, Address.houses, :first, :first, {include_blank: t("address.house")} %>
+              <%= f.label "Type of post" %>
+              <%= f.collection_select :house, Address.houses, :first, :first, {include_blank: t("address.house")}, 
+                style: "margin-left: 28px;" %>
             </td>
           </tr>
         </table>

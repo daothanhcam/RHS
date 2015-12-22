@@ -5,10 +5,10 @@
 
       <div class="col-md-10">
         <div class="col-md-12">
-          <input class="form-control" placeholder="Min price">
+          <input class="form-control" id="min-price" placeholder="Min price">
         </div>
         <div class="col-md-12">
-          <input class="form-control" placeholder="Max price">
+          <input class="form-control" id="max-price" placeholder="Max price">
         </div>
       </div>
     </div>
@@ -17,13 +17,25 @@
       <label class="col-md-2 control-label">Area</label>
       <div class="col-md-10">
         <div class="col-md-12">
-          <input class="form-control" placeholder="Min area">
+          <input class="form-control" id="min-area" placeholder="Min area">
         </div>
         <div class="col-md-12">
-          <input class="form-control" placeholder="Max area">
+          <input class="form-control" id="max-area" placeholder="Max area">
         </div>
       </div>
     </div>
+
+    <div class="form-group">
+      <label class="col-md-2 control-label">Type</label>
+      <div class="col-md-10">
+        <select id="select-type-filter">
+          <% Address.houses.keys.each do |k| %>
+            <option><%= k %></option>
+          <% end %>
+        </select>
+      </div>
+    </div>
+
     <div class="form-group draw-type-form">
       <div class="col-md-12 select-type-label">Select area by</div>
       <div class="col-md-10 col-md-offset-2">

@@ -39,13 +39,5 @@
         <%= adds_by_province.created_at.to_date.to_formatted_s :long_ordinal %>
       </span>
     </div>
-    <div class="list-features">
-      <%= link_to t("edit"), edit_address_path(id: adds_by_province) if can? :update,
-        adds_by_province %>
-      <% if can? :delete, adds_by_province %>
-        <%= link_to t("delete"), address_path(id: adds_by_province), method: :delete,
-          data: {confirm: t("you_sure")} %>
-      <% end %>
-    </div>
   </div>
 </div>

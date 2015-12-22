@@ -20,14 +20,6 @@
             {class: "form-control", id: "max_price"} %><br>
         </div>
       </div>
-      <div class="col-sm-4">
-        <%= f.label :region_province %>
-        <%= f.collection_select :region_province_cont, Settings.locations,
-          :last, :last, {include_blank: t("search.region")},
-          {class: "form-control", id: "address"} %><br>
-        <%= link_to t("description.advance_search"), "javascript:void(0)",
-          id: "advance_search" %>
-      </div>
   </div>
   <div class="row">
     <div class="col-sm-8">
