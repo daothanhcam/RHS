@@ -34,6 +34,7 @@ class Address < ActiveRecord::Base
   scope :area_in_range, ->(min, max) do
     where("square >= ? AND square <= ?", min, max)
   end
+
   scope :price_in_range, ->(min, max) do
     where("price >= ? AND price <= ?", min, max)
   end

@@ -4,9 +4,11 @@ var markers = [];
 var overlays = [];
 var infowindows =[];
 var tmpMarkers = [];
+var centerPoint;
+var directionsDisplay = new google.maps.DirectionsRenderer;
+var directionsService = new google.maps.DirectionsService;
 var map, map_sm, geolocate, geo_marker = null;
 function initialize() {
-
   var myLatlng = new google.maps.LatLng(21.017030, 105.783902);
   var image = "/assets/pin.png";
   var option = {
@@ -18,11 +20,23 @@ function initialize() {
   }
   map = new google.maps.Map(document.getElementById("map-canvas"), option);
 
+  //search near by
+  var pyrmont = {lat: 21.014810336839382, lng: 105.77550888061523};
+  var service = new google.maps.places.PlacesService(map);
+
   //direction
-  var directionsDisplay = new google.maps.DirectionsRenderer;
-  var directionsService = new google.maps.DirectionsService;
   directionsDisplay.setMap(map);
-  calculateAndDisplayRoute(directionsService, directionsDisplay);
+  document.getElementById('get-direction-submit').addEventListener('click', function() {
+    getDirection(directionsService, directionsDisplay);
+  });
+
+  document.getElementById('search-nearby-btn').addEventListener('click', function() {
+    service.nearbySearch({
+      location: centerPoint,
+      radius: 500,
+      types: ['bank', 'atm', 'store']
+    }, callback);
+  });
 
   // int draw tool
   var drawingManager = new google.maps.drawing.DrawingManager({
@@ -38,12 +52,14 @@ function initialize() {
     circleOptions: {
       strokeWeight: 0,
       fillOpacity: 0.2,
-      zIndex: 1
+      zIndex: 1,
+      clickable: false,
     },
     polygonOptions: {
       strokeWeight: 0,
       fillOpacity: 0.2,
-      zIndex: 1
+      zIndex: 1,
+      clickable: false,
     }
   });
   drawingManager.setMap(map);
@@ -85,7 +101,8 @@ function initialize() {
             tmpMarkers[j] = new google.maps.Marker({
               position: point,
               animation: google.maps.Animation.DROP,
-              map: map
+              map: map,
+              icon: "http://maps.google.com/mapfiles/kml/pal3/icon56.png"
             });
             var markerContent = 
                                 '<div class="container">' +
@@ -111,8 +128,9 @@ function initialize() {
 
                                   '<div class="row">' +
                                     '<a href="addresses/' + result[i].id + '" class="btn btn-info btn-sm" role="button" id="see-more-btn">See more detail</a>' +
-                                    '<button id="get-direction-btn" class="btn btn-info btn-sm">Get direction</span>' +
-                                    '<button id="serach-near-by-btn" class="btn btn-info btn-sm">Search near by </span>' +
+                                    '<button id="get-direction-btn-' + i +
+                                      '" class="get-direction-btn btn btn-info btn-sm" onclick="showDirectionOptionBox(' + result[i].lat + ', ' + result[i].lng +')">Get direction</span>' +
+                                    '<button id="serach-near-by-btn" class="btn btn-info btn-sm" onclick="showSearchNearbyBox(' + result[i].lat + ', ' + result[i].lng +')">Search near by</span>' +
                                   '</div>' +
                                 '</div>';                                
             infowindows[j] = new google.maps.InfoWindow({
@@ -130,6 +148,9 @@ function initialize() {
   google.maps.event.addListener(map, 'click', function( event ){
     $("#form-lat").attr({value: event.latLng.lat()});
     $("#form-lng").attr({value: event.latLng.lng()});
+
+    $("#des-lat").attr({value: event.latLng.lat()});
+    $("#des-lng").attr({value: event.latLng.lng()});
   });
 
   // init search box
@@ -229,6 +250,8 @@ function clearOverlayMarker(){
   while(tmpMarkers[0]){
     tmpMarkers.pop().setMap(null);
   }
+  $("#direction-option-box").hide();
+  directionsDisplay.setMap(null);
 }
 
 function bindInfoWindow(marker, map, infowindow, markerContent) {
@@ -238,11 +261,27 @@ function bindInfoWindow(marker, map, infowindow, markerContent) {
   });
 }
 
-function calculateAndDisplayRoute(directionsService, directionsDisplay) {
-  var selectedMode = document.getElementById('mode').value;
+function showDirectionOptionBox(lat, lng) {
+  for (var i=0;i<infowindows.length;i++) {
+     infowindows[i].close();
+  }
+  $("#direction-option-box").show();
+  $("#start-lat").attr({value: lat});
+  $("#start-lng").attr({value: lng});
+}
+
+function getDirection(directionsService, directionsDisplay) {
+  var stLat = parseFloat($("#start-lat").val());
+  var stLng = parseFloat($("#start-lng").val());
+  var desLng = parseFloat($("#des-lng").val());
+  var desLat = parseFloat($("#des-lat").val());
+
+  var startPoint = new google.maps.LatLng(stLat, stLng);
+  var endPoint = new google.maps.LatLng(desLat, desLng);
+  var selectedMode = document.getElementById('travelMode').value;
   directionsService.route({
-    origin: {lat: 37.77, lng: -122.447},  // Haight.
-    destination: {lat: 37.768, lng: -122.511},  // Ocean Beach.
+  origin: startPoint,
+    destination: endPoint,
     travelMode: google.maps.TravelMode[selectedMode]
   }, function(response, status) {
     if (status == google.maps.DirectionsStatus.OK) {
@@ -251,4 +290,40 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay) {
       window.alert('Directions request failed due to ' + status);
     }
   });
+}
+
+function callback(placeResults, status) {
+  if (status === google.maps.places.PlacesServiceStatus.OK) {
+    for (var i = 0; i < placeResults.length; i++) {
+      createMarker(placeResults[i]);
+    }
+  }
+}
+
+function createMarker(place) {
+  switch(place.types[0]) {
+    case "store":
+      var marker = new google.maps.Marker({
+        map: map,
+        position: place.geometry.location,
+        icon: "http://maps.google.com/mapfiles/kml/shapes/gas_stations.png"
+      });
+      break;
+
+    case "atm":
+      var marker = new google.maps.Marker({
+        map: map,
+        position: place.geometry.location,
+        icon: "http://maps.google.com/mapfiles/kml/pal2/icon61.png"
+      });
+      break;      
+  }
+}
+
+function showSearchNearbyBox(lat, lng) {
+  for (var i=0;i<infowindows.length;i++) {
+     infowindows[i].close();
+  }
+  $("#search_near_by_option").show();
+  centerPoint = new google.maps.LatLng(lat, lng);
 }

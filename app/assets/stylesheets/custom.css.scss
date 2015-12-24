@@ -1685,3 +1685,34 @@ hr {
   margin-top: 8px;
   margin-left: 13px;
 }
+
+#direction-option-box {
+  position: absolute;
+  z-index: 1;
+  background-color: white;
+  bottom: 10px;
+  height: 47px;
+  border-radius: 4px;
+}
+
+.alert {
+  position: absolute;
+  z-index: 1;
+  bottom: 50px;
+}
+
+#search_near_by_option {
+  position: absolute;
+  z-index: 1;
+  background-color: white;
+  bottom: 10px;
+  height: 58px;
+  border-radius: 4px;
+  padding-top: 4px;
+  display: none;
+}
+
+.no-side-padding {
+  padding-right: 0px;
+  padding-left: 0px;
+}
